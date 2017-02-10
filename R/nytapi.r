@@ -1,51 +1,4 @@
 
-## create a function to fetch your api key
-get_nytimes_key <- function() {
-    x <- Sys.getenv("NYTIMES_KEY")
-    if (any(is.null(x), identical(x, ""))) {
-        stop("couldn't find NYTIMES_KEY environment variable",
-             call. = FALSE)
-    }
-    x
-}
-
-.get_nyt <- function(q,
-                     page = 1,
-                     sort = "newest",
-                     apikey = NULL,
-                     scheme = "http",
-                     hostname = "api.nytimes.com",
-                     version = "v2",
-                     path = "articlesearch.json",
-                     ...) {
-
-    ## if null get api key environment variable
-    if (is.null(apikey)) {
-        apikey <- get_nytimes_key()
-    }
-    ## construct path
-    path <- paste0("svc/search/",
-                   version,
-                   "/", path)
-    ## build query
-    query <- list(
-        q = q,
-        page = page,
-        sort = sort,
-        `api-key` = apikey,
-        ...
-    )
-    ## create url object
-    url <- structure(
-        list(scheme = scheme,
-             hostname = hostname,
-             path = path,
-             query = query),
-        class = "url")
-    ## send get request
-    httr::GET(httr::build_url(url))
-}
-
 #' get_nyt
 #'
 #' Main function used to retrieve data from NYTimes'
@@ -73,7 +26,7 @@ get_nyt <- function(q,
               is.atomic(apikey))
     ## if null get apikey environment variable
     if (is.null(apikey)) {
-        apikey <- get_nytimes_key()
+        apikey <- .get_nytimes_key()
     }
     ## results come in batches of 10, so...
     n <- ceiling(n / 10)
@@ -92,11 +45,76 @@ get_nyt <- function(q,
         if (all(i %% 100 == 0, n > 100)) {
             end_date <- .get_end_date(x[[i]])
         }
-        Sys.sleep(1)
+        Sys.sleep(.25)
     }
     ## return non-null elements of x
     x[!vapply(x, is.null, logical(1))]
 }
+
+
+
+#' parse_nyt
+#'
+#' Parses response data into nested list.
+#'
+#' @param x Response object from get_nyt
+#' @return Nested list object.
+#' @export
+parse_nyt <- function(x) {
+    x <- .get_docs(x)
+    x <- .delist(x)
+    lapply(x, function(x) do.call("c", x))
+}
+
+
+
+## create a function to fetch your api key
+.get_nytimes_key <- function() {
+    x <- Sys.getenv("NYTIMES_KEY")
+    if (any(is.null(x), identical(x, ""))) {
+        stop("couldn't find NYTIMES_KEY environment variable",
+             call. = FALSE)
+    }
+    x
+}
+
+.get_nyt <- function(q,
+                     page = 1,
+                     sort = "newest",
+                     apikey = NULL,
+                     scheme = "http",
+                     hostname = "api.nytimes.com",
+                     version = "v2",
+                     path = "articlesearch.json",
+                     ...) {
+
+    ## if null get api key environment variable
+    if (is.null(apikey)) {
+        apikey <- .get_nytimes_key()
+    }
+    ## construct path
+    path <- paste0("svc/search/",
+                   version,
+                   "/", path)
+    ## build query
+    query <- list(
+        q = q,
+        page = page,
+        sort = sort,
+        `api-key` = apikey,
+        ...
+    )
+    ## create url object
+    url <- structure(
+        list(scheme = scheme,
+             hostname = hostname,
+             path = path,
+             query = query),
+        class = "url")
+    ## send get request
+    httr::GET(httr::build_url(url))
+}
+
 
 ## get end date (for searches where n > 1000)
 .get_end_date <- function(x) {
@@ -119,18 +137,6 @@ get_nyt <- function(q,
     x <- lapply(x, .convertfromjson)
     x <- lapply(x, getElement, "response")
     lapply(x, getElement, "docs")
-}
-
-#' parse_nyt
-#'
-#' Parses response data into nested list.
-#'
-#' @param x Response object from get_nyt
-#' @return Nested list object.
-#' @export
-parse_nyt <- function(x) {
-    x <- .get_docs(x)
-    .delist(x)
 }
 
 .commonnames <- function(x) {
