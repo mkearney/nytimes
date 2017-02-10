@@ -24,6 +24,8 @@ get_nyt <- function(q,
     stopifnot(is.character(q),
               is.numeric(n),
               is.atomic(apikey))
+    ## url encode query
+    q <- URLencode(q)
     ## if null get apikey environment variable
     if (is.null(apikey)) {
         apikey <- .get_nytimes_key()
@@ -45,7 +47,11 @@ get_nyt <- function(q,
         if (all(i %% 100 == 0, n > 100)) {
             end_date <- .get_end_date(x[[i]])
         }
-        Sys.sleep(.25)
+        Sys.sleep(.5)
+    }
+    if (x[[i]][["status_code"]] == 429) {
+        warning("API rate limit exceeded",
+                call. = FALSE)
     }
     ## return non-null elements of x
     x[!vapply(x, is.null, logical(1))]
@@ -57,16 +63,51 @@ get_nyt <- function(q,
 #'
 #' Parses response data into nested list.
 #'
-#' @param x Response object from get_nyt
-#' @return Nested list object.
+#' @param nyt Response object from get_nyt
+#' @param force Logical indicating whether to force data into
+#'   a data frame. Depending on the request, a few columns may
+#'   come out ugly with recursive variables forced into non-
+#'   recursive format by separating each entry with +'s. Defaults
+#'   to TRUE.
+#' @examples
+#' \dontrun{
+#' nyt <- get_nyt("political+polarization", n = 100)
+#' nytdat <- parse_nyt(nyt)
+#' head(nytdat)
+#' }
+#' @return Returns NYT data organized by variable.
 #' @export
-parse_nyt <- function(x) {
+parse_nyt <- function(x, force = TRUE) {
     x <- .get_docs(x)
     x <- .delist(x)
-    lapply(x, function(x) do.call("c", x))
+    x <- lapply(x, function(x) do.call("c", x))
+    if (!force) return(x)
+    .flattener(x)
 }
 
-
+.flattener <- function(x) {
+    names(x)[1] <- "id"
+    if ("multimedia" %in% names(x)) {
+        x[["multimedia"]] <- .pluckfold(
+            x[["multimedia"]], "url"
+        )
+    }
+    if ("keywords" %in% names(x)) {
+        x[["keywords"]] <- .pluckfold(
+            x[["keywords"]], "value"
+        )
+    }
+    if ("headline" %in% names(x)) {
+        x[["headline"]] <- x[["headline"]][["main"]]
+        x[["headline"]][x[["headline"]] == ""] <- NA_character_
+    }
+    if ("byline" %in% names(x)) {
+        x[["byline"]] <- x[["byline"]][["original"]]
+        x[["byline"]][x[["byline"]] == ""] <- NA_character_
+    }
+    recv <- vapply(x, is.recursive, logical(1))
+    data.frame(x[!recv], stringsAsFactors = FALSE)
+}
 
 ## create a function to fetch your api key
 .get_nytimes_key <- function() {
@@ -81,7 +122,7 @@ parse_nyt <- function(x) {
 .get_nyt <- function(q,
                      page = 1,
                      sort = "newest",
-                     apikey = NULL,
+                     apikey,
                      scheme = "http",
                      hostname = "api.nytimes.com",
                      version = "v2",

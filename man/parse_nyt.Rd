@@ -4,15 +4,28 @@
 \alias{parse_nyt}
 \title{parse_nyt}
 \usage{
-parse_nyt(x)
+parse_nyt(x, force = TRUE)
 }
 \arguments{
-\item{x}{Response object from get_nyt}
+\item{force}{Logical indicating whether to force data into
+a data frame. Depending on the request, a few columns may
+come out ugly with recursive variables forced into non-
+recursive format by separating each entry with +'s. Defaults
+to TRUE.}
+
+\item{nyt}{Response object from get_nyt}
 }
 \value{
-Nested list object.
+Returns NYT data organized by variable.
 }
 \description{
 Parses response data into nested list.
+}
+\examples{
+\dontrun{
+nyt <- get_nyt("political+polarization", n = 100)
+nytdat <- parse_nyt(nyt)
+head(nytdat)
+}
 }
 
