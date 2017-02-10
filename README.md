@@ -21,15 +21,24 @@ cat(apikey, file = file, append = TRUE, fill = TRUE)
 ## Demonstration
 
 ```{r}
-## get http response objects
+## get http response objects for search about sanctions
 r <- get_nyt("sanctions", n = 2000)
 
-## collapse into more manageable structure
-nytdf <- parse_nyt
+## collapse results into more manageable structure
+nytdf <- parse_nyt(r)
 
 ## preview object structure
 str(nytdf, 1)
 
 ## there are usually some problem variables though
 str(nytdf, 2)
+
+## identify recursive vectors
+recv <- vapply(nytdf, is.recursive, logical(1))
+
+## make df using non-recursive variables
+df <- data.frame(nytdf[!recv], stringsAsFactors = FALSE)
+
+## preview data
+head(df)
 ```
