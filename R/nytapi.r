@@ -9,37 +9,15 @@ get_nytimes_key <- function() {
     x
 }
 
-#' .get_nyt
-#'
-#' Returns single page of results from NYTimes' article
-#'   search API.
-#'
-#' @param q Search terms.
-#' @param page Page number ranging from 0-100.
-#' @param sort Order of results, e.g., "newest", "oldest"
-#' @param apikey Article search API key.
-#' @param scheme "http" or "https"
-#' @param hostname Probably "api.nytimes.com"
-#' @param version Currently "v2"
-#' @param path Probably "articlesearch.json"
-#' @param \dots Args passed along to query parameters.
-#' @examples
-#' \dontrun{
-#' nyt <- get_nytimes(
-#'     q = "sanctions+russia",
-#'     page = 3)
-#' }
-#' @return Response object.
-#' @importFrom httr GET build_url
 .get_nyt <- function(q,
-                        page = 1,
-                        sort = "newest",
-                        apikey = NULL,
-                        scheme = "http",
-                        hostname = "api.nytimes.com",
-                        version = "v2",
-                        path = "articlesearch.json",
-                        ...) {
+                     page = 1,
+                     sort = "newest",
+                     apikey = NULL,
+                     scheme = "http",
+                     hostname = "api.nytimes.com",
+                     version = "v2",
+                     path = "articlesearch.json",
+                     ...) {
 
     ## if null get api key environment variable
     if (is.null(apikey)) {
@@ -85,10 +63,10 @@ get_nytimes_key <- function() {
 #' @return Nested list object of nytimes article data.
 #' @export
 get_nyt <- function(q,
-                             n = 100,
-                             end_date = NULL,
-                             apikey = NULL,
-                             ...) {
+                    n = 100,
+                    end_date = NULL,
+                    apikey = NULL,
+                    ...) {
     ## check params
     stopifnot(is.character(q),
               is.numeric(n),
@@ -148,6 +126,8 @@ get_nyt <- function(q,
 #' Parses response data into nested list.
 #'
 #' @param x Response object from get_nyt
+#' @return Nested list object.
+#' @export
 parse_nyt <- function(x) {
     x <- .get_docs(x)
     .delist(x)
