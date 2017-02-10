@@ -36,11 +36,13 @@ get_nyt <- function(q,
     x <- vector("list", n)
     ## loop through pages
     for (i in seq_len(n)) {
-        x[[i]] <- .get_nyt(q = q,
-                           page = i,
-                           apikey = apikey,
-                           end_date = end_date,
-                           ...)
+        x[[i]] <- .get_nyt(
+            path = "search/v2/articlesearch.json",
+            apikey = apikey,
+            q = q,
+            page = i,
+            end_date = end_date,
+            ...)
         ## check status of response object
         if (x[[i]][["status_code"]] != 200) break
         ## get date from which to resume next iteration
@@ -87,21 +89,21 @@ parse_nyt <- function(x, force = TRUE) {
 
 .flattener <- function(x) {
     names(x)[1] <- "id"
-    if ("multimedia" %in% names(x)) {
+    if (isTRUE("multimedia" %in% names(x))) {
         x[["multimedia"]] <- .pluckfold(
             x[["multimedia"]], "url"
         )
     }
-    if ("keywords" %in% names(x)) {
+    if (isTRUE("keywords" %in% names(x))) {
         x[["keywords"]] <- .pluckfold(
             x[["keywords"]], "value"
         )
     }
-    if ("headline" %in% names(x)) {
+    if (isTRUE("headline" %in% names(x))) {
         x[["headline"]] <- x[["headline"]][["main"]]
         x[["headline"]][x[["headline"]] == ""] <- NA_character_
     }
-    if ("byline" %in% names(x)) {
+    if (isTRUE("byline" %in% names(x))) {
         x[["byline"]] <- x[["byline"]][["original"]]
         x[["byline"]][x[["byline"]] == ""] <- NA_character_
     }
@@ -119,14 +121,10 @@ parse_nyt <- function(x, force = TRUE) {
     x
 }
 
-.get_nyt <- function(q,
-                     page = 1,
-                     sort = "newest",
-                     apikey,
-                     scheme = "http",
+.get_nyt <- function(scheme = "http",
                      hostname = "api.nytimes.com",
-                     version = "v2",
-                     path = "articlesearch.json",
+                     path,
+                     apikey = NULL,
                      ...) {
 
     ## if null get api key environment variable
@@ -134,16 +132,10 @@ parse_nyt <- function(x, force = TRUE) {
         apikey <- .get_nytimes_key()
     }
     ## construct path
-    path <- paste0("svc/search/",
-                   version,
-                   "/", path)
+    path <- paste0("svc/", path)
     ## build query
-    query <- list(
-        q = q,
-        page = page,
-        sort = sort,
-        `api-key` = apikey,
-        ...
+    query <- list(...,
+        `api-key` = apikey
     )
     ## create url object
     url <- structure(
@@ -198,3 +190,4 @@ parse_nyt <- function(x, force = TRUE) {
     y[vapply(y, is.null, logical(1))] <- NA
     y
 }
+
