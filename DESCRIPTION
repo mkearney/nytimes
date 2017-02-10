@@ -1,0 +1,20 @@
+Package: nytimes
+Type: Package
+Title: New York Times Article Search API
+Version: 0.0.1
+Date: 2017-02-09
+Authors@R: person("Michael W.", "Kearney", "", "mkearney@ku.edu", c("aut", "cre"))
+Description: An implementation of calls designed to extract and organize data from New York Time's article search API.
+Depends:
+    R (>= 3.1.0)
+Imports:
+    httr (>= 1.0.0),
+    jsonlite
+License: MIT + file LICENSE
+LazyData: TRUE
+URL: https://github.com/mkearney/nytimes
+BugReports: https://github.com/mkearney/nytimes/issues
+RoxygenNote: 5.0.1
+Suggests:
+    knitr,
+    rmarkdown
