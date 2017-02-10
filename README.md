@@ -1,6 +1,14 @@
-## nytimes
+## nytimes: R package accessing NYTimes' API
 - R functions for accessing New York Times' article search API
 - Created during CRMDA's Big Dynamic Data working group
+
+## Install and load
+
+```{r}
+install.packages("devtools")
+devtools::install_github("mkearney/nytimes")
+library(nytimes)
+```
 
 ## Authorizing API access
 - Use code below to create environment variable to store your api key
