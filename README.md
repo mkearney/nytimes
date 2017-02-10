@@ -1,10 +1,11 @@
-## r functions to access New York Times' article API
-- created during CRMDA's Big Dynamic Data working group
+## nytimes
+- R functions for accessing New York Times' article search API
+- Created during CRMDA's Big Dynamic Data working group
 
-## authorizing API access
-- use code below to create environment variable to store your api key.
+## Authorizing API access
+- Use code below to create environment variable to store your api key
 
-```
+```{r}
 ## replace x's with nytimes article search API key which
 ##    you can acquire by visiting the following URL:
 ##    https://developer.nytimes.com/signup
@@ -17,11 +18,11 @@ file <- file.path(path.expand("~"), ".Renviron")
 cat(apikey, file = file, append = TRUE, fill = TRUE)
 ```
 
-## demonstration
+## Demonstration
 
-```
+```{r}
 ## get http response objects
-r <- get_nyt("sanctions", n = 1000)
+r <- get_nyt("sanctions", n = 2000)
 
 ## collapse into more manageable structure
 nytdf <- parse_nyt
