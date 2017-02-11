@@ -11,7 +11,8 @@ library(nytimes)
 ```
 
 ## Authorizing API access
-- Use code below to create environment variable to store your api key
+- Use code below to create environment variable to store your api key,
+  which you can acquire here: [](https://developer.nytimes.com/signup)
 
 ```{r}
 ## replace x's with nytimes article search API key which
