@@ -1,4 +1,4 @@
-## nytimes: Accessing New York Times' article search API
+## nytimes: R package for accessing New York Times' article search API
 - R functions for accessing New York Times' "article search" API
 - Created during CRMDA's Big Dynamic Data working group
 
