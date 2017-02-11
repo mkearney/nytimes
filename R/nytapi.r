@@ -160,7 +160,14 @@ parse_nyt <- function(x, force = TRUE) {
             identical(x, ""))) return(NULL)
     gsub("-", "", substr(x, 1, 10))
 }
-
+.pluckfold <- function(x, var) {
+    x <- vapply(x, function(i)
+        paste(unlist(getElement(i, var)),
+              collapse = "+"),
+        character(1))
+    x[x == ""] <- NA_character_
+    x
+}
 .convertfromjson <- function(x) {
     tryCatch(jsonlite::fromJSON(rawToChar(x[["content"]])),
              error = function(e) return(NULL))
