@@ -4,7 +4,7 @@ Title: New York Times Article Search API
 Version: 0.0.1
 Date: 2017-02-09
 Authors@R: person("Michael W.", "Kearney", "", "mkearney@ku.edu", c("aut", "cre"))
-Description: An implementation of calls designed to extract and organize data from New York Time's article search API.
+Description: An implementation of calls designed to extract and organize data from New York Times' article search API.
 Depends:
     R (>= 3.1.0)
 Imports:
