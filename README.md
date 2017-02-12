@@ -1,6 +1,8 @@
-## New YoRk Times' aRticle seaRch API
-- R functions for accessing New York Times' "article search" API
-- Created during CRMDA's Big Dynamic Data working group
+## Interacting with New YoRk Times' APIs
+
+- R functions for accessing New York Times' APIs
+- Functionality currently extends to "article search" and "most
+  popular" APIs.
 
 ## Install package
 
@@ -27,25 +29,51 @@ file <- file.path(path.expand("~"), ".Renviron")
 cat(apikey, file = file, append = TRUE, fill = TRUE)
 ```
 
-## Demonstration
+## Load nytimes
 
 ```{r}
 ## load package
 library(nytimes)
+```
 
+## Article Search API
+
+```{r}
 ## get http response objects for search about sanctions
-r <- get_nyt("sanctions", n = 2000)
+r <- nyt_search("sanctions", n = 2000)
 
 ## by default parse_nyt forces output into tidy data frame
-nytdf <- parse_nyt(r)
+nytdf <- parse_search(r)
 
 ## preview data
 head(nytdf, 10)
 
 ## set force to FALSE to preserve *all* of the data
-nytdat <- parse_nyt(r, force = FALSE)
+nytdat <- parse_search(r, force = FALSE)
 
 ## object is now a nested list
 str(nytdat, 1)
 ```
+
+## Most Popular API
+
+```{r}
+## get data for most popular stories
+nytpop <- nyt_mostpopular(metric = "mostshared",
+                          section = "U.S.")
+
+## parse into tidy data frame
+nytpopdf <- parse_mostpopular(nytpop)
+
+## preview data
+head(nytpopdf)
+
+## get media for each observation
+get_media(nytpopdf)
+```
+
+## About
+- These functions were created during the Big Dynamic Data working
+  group sponsored by the Center for Research Methods & Data Analysis
+  at the University of Kansas.
 

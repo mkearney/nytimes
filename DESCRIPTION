@@ -1,10 +1,10 @@
 Package: nytimes
 Type: Package
-Title: New York Times Article Search API
-Version: 0.0.1
+Title: Interacting with New York Times APIs
+Version: 0.0.2
 Date: 2017-02-09
 Authors@R: person("Michael W.", "Kearney", "", "mkearney@ku.edu", c("aut", "cre"))
-Description: An implementation of calls designed to extract and organize data from New York Times' article search API.
+Description: An implementation of calls designed to interact with New York Times' public APIs.
 Depends:
     R (>= 3.1.0)
 Imports:

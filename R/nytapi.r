@@ -1,5 +1,5 @@
 
-#' get_nyt
+#' nyt_search
 #'
 #' Main function used to retrieve data from NYTimes'
 #'   article search API
@@ -15,7 +15,7 @@
 #' @param \dots Arguments passed along to query in final GET request.
 #' @return Nested list object of nytimes article data.
 #' @export
-get_nyt <- function(q,
+nyt_search <- function(q,
                     n = 100,
                     end_date = NULL,
                     apikey = NULL,
@@ -34,20 +34,28 @@ get_nyt <- function(q,
     n <- ceiling(n / 10)
     ## initialize vector to store results
     x <- vector("list", n)
+    ## start page counter
+    p <- 1L
     ## loop through pages
     for (i in seq_len(n)) {
-        x[[i]] <- .get_nyt(
+        x[[i]] <- .nyt_search(
             path = "search/v2/articlesearch.json",
             apikey = apikey,
             q = q,
-            page = i,
+            page = p,
             end_date = end_date,
             ...)
         ## check status of response object
         if (x[[i]][["status_code"]] != 200) break
         ## get date from which to resume next iteration
         if (all(i %% 100 == 0, n > 100)) {
+            ## update end_date
             end_date <- .get_end_date(x[[i]])
+            ## reset page counter
+            p <- 1L
+        } else {
+            ## add to page counter
+            p <- p + 1L
         }
         Sys.sleep(.5)
     }
@@ -79,7 +87,7 @@ get_nyt <- function(q,
 #' }
 #' @return Returns NYT data organized by variable.
 #' @export
-parse_nyt <- function(x, force = TRUE) {
+parse_search <- function(x, force = TRUE) {
     x <- .get_docs(x)
     x <- .delist(x)
     x <- lapply(x, function(x) do.call("c", x))
@@ -121,11 +129,11 @@ parse_nyt <- function(x, force = TRUE) {
     x
 }
 
-.get_nyt <- function(scheme = "http",
-                     hostname = "api.nytimes.com",
-                     path,
-                     apikey = NULL,
-                     ...) {
+.nyt_search <- function(scheme = "http",
+                        hostname = "api.nytimes.com",
+                        path,
+                        apikey = NULL,
+                        ...) {
 
     ## if null get api key environment variable
     if (is.null(apikey)) {
