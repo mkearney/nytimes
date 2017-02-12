@@ -1,7 +1,7 @@
 Package: nytimes
 Type: Package
 Title: Interacting with New York Times APIs
-Version: 0.0.2
+Version: 0.0.3
 Date: 2017-02-09
 Authors@R: person("Michael W.", "Kearney", "", "mkearney@ku.edu", c("aut", "cre"))
 Description: An implementation of calls designed to interact with New York Times' public APIs.

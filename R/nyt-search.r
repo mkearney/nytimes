@@ -102,6 +102,23 @@ as.data.frame.search <- function(x, force = TRUE,
     data.frame(x, stringsAsFactors = FALSE, ...)
 }
 
+#' parse search
+#'
+#' Parses object returned by nyt_search into data frame.
+#'
+#' @param nyt Response object from get_nyt
+#' @param force Logical indicating whether to force data into
+#'   a data frame. Depending on the request, a few columns may
+#'   come out ugly with recursive variables forced into non-
+#'   recursive format by separating each entry with +'s. Defaults
+#'   to TRUE.
+#' @examples
+#' \dontrun{
+#' nyt <- nyt_search("political+polarization", n = 100)
+#' nytdat <- as.data.frame(nyt)
+#' head(nytdat)
+#' }
+#' @return Returns data frame.
 #' @export
 data.frame.search <- function(x, force = TRUE, ...) {
     as.data.frame.search(x, force = force, ...)

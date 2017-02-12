@@ -68,6 +68,12 @@ as.data.frame.timeswire <- function(r, ...) {
     x$updated_date <- .format_pub_date(x$updated_date)
     data.frame(x, ...)
 }
+
+#' Parse nyt_timeswire object into data frame
+#'
+#' @param r Response object returned by nyt_timeswire.
+#' @param \dots Passed along to data.frame function.
+#' @return Data frame.
 #' @export
 data.frame.timeswire <- function(x, ...) {
     as.data.frame.timeswire(x, ...)
