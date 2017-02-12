@@ -42,16 +42,17 @@ library(nytimes)
 ## get http response objects for search about sanctions
 r <- nyt_search("sanctions", n = 2000)
 
-## by default parse_nyt forces output into tidy data frame
-nytdf <- parse_search(r)
+## by default data.frame() will force output into
+## tidy data frame
+nytdf <- as.data.frame(r)
 
 ## preview data
 head(nytdf, 10)
 
 ## set force to FALSE to preserve *all* of the data
-nytdat <- parse_search(r, force = FALSE)
+nytdat <- as.data.frame(r, force = FALSE)
 
-## object is now a nested list
+## object is now includes recursive vectors
 str(nytdat, 1)
 ```
 
@@ -62,8 +63,8 @@ str(nytdat, 1)
 nytpop <- nyt_mostpopular(metric = "mostshared",
                           section = "U.S.")
 
-## parse into tidy data frame
-nytpopdf <- parse_mostpopular(nytpop)
+## easily converts to tidy data frame
+nytpopdf <- as.data.frame(nytpop)
 
 ## preview data
 head(nytpopdf)

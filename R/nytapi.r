@@ -38,7 +38,7 @@ nyt_search <- function(q,
     p <- 1L
     ## loop through pages
     for (i in seq_len(n)) {
-        x[[i]] <- .nyt_search(
+        x[[i]] <- .get_nyt(
             path = "search/v2/articlesearch.json",
             apikey = apikey,
             q = q,
@@ -64,12 +64,16 @@ nyt_search <- function(q,
                 call. = FALSE)
     }
     ## return non-null elements of x
-    x[!vapply(x, is.null, logical(1))]
+    x <- x[!vapply(x, is.null, logical(1))]
+    ## set class
+    class(x) <- "search"
+    ## return object
+    x
 }
 
 
 
-#' parse_nyt
+#' parse_search
 #'
 #' Parses response data into nested list.
 #'
@@ -87,12 +91,22 @@ nyt_search <- function(q,
 #' }
 #' @return Returns NYT data organized by variable.
 #' @export
-parse_search <- function(x, force = TRUE) {
+as.data.frame.search <- function(x, force = TRUE,
+                                 ...) {
     x <- .get_docs(x)
     x <- .delist(x)
     x <- lapply(x, function(x) do.call("c", x))
     if (!force) return(x)
-    .flattener(x)
+    x <- .flattener(x)
+    x[["pub_date"]] <- strptime(
+        gsub("\\+.*", "", x[["pub_date"]]),
+        format = "%Y-%m-%dT%H:%M:%S")
+    data.frame(x, stringsAsFactors = FALSE, ...)
+}
+
+#' @export
+data.frame.search <- function(x, force = TRUE, ...) {
+    as.data.frame.search(x, force = force, ...)
 }
 
 .flattener <- function(x) {
@@ -129,7 +143,7 @@ parse_search <- function(x, force = TRUE) {
     x
 }
 
-.nyt_search <- function(scheme = "http",
+.get_nyt <- function(scheme = "http",
                         hostname = "api.nytimes.com",
                         path,
                         apikey = NULL,

@@ -58,9 +58,9 @@ nyt_mostpopular <- function(metric = "mostshared",
                 call. = FALSE)
     }
     ## return response object
+    class(r) <- "mostpopular"
     r
 }
-
 
 .collapse_facet <- function(x) {
     x <- vapply(x, paste, collapse = "+", character(1))
@@ -73,7 +73,9 @@ nyt_mostpopular <- function(metric = "mostshared",
 #' @param r Response object from \code{nyt_mostpopular}.
 #' @return Data frame with \"media\" attributes.
 #' @export
-parse_mostpopular <- function(r) {
+as.data.frame.mostpopular <- function(r,
+                                      stringsAsFactors = FALSE,
+                                      ...) {
     x <- jsonlite::fromJSON(rawToChar(r$content))
     if ("results" %in% names(x)) x <- x$results
     attr(x, "media") <- x[["media"]]
@@ -85,7 +87,16 @@ parse_mostpopular <- function(r) {
     )
     x[["asset_id"]] <- as.character(x[["asset_id"]])
     x[["published_date"]] <- as.Date(x[["published_date"]])
-    x
+    data.frame(x, stringsAsFactors = FALSE, ...)
+}
+
+#' parse_mostpopular
+#'
+#' @param r Response object from \code{nyt_mostpopular}.
+#' @return Data frame with \"media\" attributes.
+#' @export
+data.frame.mostpopular <- function(x, ...) {
+    as.data.frame.mostpopular(x, ...)
 }
 
 #' @export
