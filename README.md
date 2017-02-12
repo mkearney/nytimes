@@ -1,8 +1,8 @@
 ## Interacting with New YoRk Times' APIs
 
 - R functions for accessing New York Times' APIs
-- Functionality currently extends to "article search" and "most
-  popular" APIs.
+- Functionality currently extends to "article search", "most
+  popular", and "Times newswire" APIs.
 
 ## Install package
 
@@ -72,6 +72,21 @@ head(nytpopdf)
 ## get media for each observation
 get_media(nytpopdf)
 ```
+
+## Times Newswire API
+
+```{r}
+## get data from the Times newswire
+nytwrite <- nyt_timeswire(src = "all",
+                        section = "all")
+
+## convert response object to data frame
+nytwiredf <- as.data.frame(nytwire)
+
+## preview data
+head(nytwiredf)
+```
+
 
 ## About
 - These functions were created during the Big Dynamic Data working
