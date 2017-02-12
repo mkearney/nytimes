@@ -51,12 +51,6 @@ nytsearchdf <- as.data.frame(nytsearch)
 
 ## preview data
 head(nytsearchdf, 10)
-
-## set force to FALSE to preserve *all* of the data
-nytsearchdf <- as.data.frame(nytsearch, force = FALSE)
-
-## nytsearchdf now includes recursive vectors
-str(nytsearchdf, 1)
 ```
 
 ### Most Popular API
@@ -80,8 +74,8 @@ get_media(nytpopdf)
 
 ```{r}
 ## get data from the Times newswire
-nytwrite <- nyt_timeswire(src = "all",
-                          section = "all")
+nytwire <- nyt_timeswire(src = "all",
+                         section = "all")
 
 ## convert response object to data frame
 nytwiredf <- as.data.frame(nytwire)
