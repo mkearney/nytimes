@@ -4,16 +4,18 @@
 \alias{as.data.frame.search}
 \title{parse search}
 \usage{
-\method{as.data.frame}{search}(x, force = TRUE, ...)
+\method{as.data.frame}{search}(r, force = TRUE, ...)
 }
 \arguments{
+\item{r}{Response object from get_nyt}
+
 \item{force}{Logical indicating whether to force data into
 a data frame. Depending on the request, a few columns may
 come out ugly with recursive variables forced into non-
-recursive format by separating each entry with +'s. Defaults
-to TRUE.}
+recursive format by separating each entry with \code{+}'s.
+Defaults to TRUE.}
 
-\item{nyt}{Response object from get_nyt}
+\item{\dots}{Passed to data frame generic.}
 }
 \value{
 Returns data frame.

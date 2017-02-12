@@ -9,13 +9,13 @@ nyt_timeswire(src = "all", section = "all", limit = NULL, offset = NULL,
 }
 \arguments{
 \item{src}{Limits the set of items by originating source
-all = items from both The New York Times and The International
-New York Times, nyt = New York Times items only, iht =
+\"all\" = items from both New York Times and International
+New York Times, \"nyt\" = New York Times items only, \"iht\" =
 International New York Times items only, path. Must be one
 of the following: string. Defaults to all.}
 
 \item{section}{Limits the set of items by one or more sections
-all | One or more section names, separated by semicolons.
+all. One or more section names, separated by semicolons.
 To get all sections, specify all. To get a particular section
 or sections, use section names. String. Defaults to all.}
 
@@ -24,6 +24,8 @@ query. Must be one of the following: integer.}
 
 \item{offset}{Sets the starting point of the result set, query.
 Must be one of the following: integer.}
+
+\item{\dots}{Passed to http query.}
 }
 \value{
 Response object from the Times Newswire API.

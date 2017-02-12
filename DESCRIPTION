@@ -1,10 +1,11 @@
 Package: nytimes
 Type: Package
-Title: Interacting with New York Times APIs
+Title: New York Times APIs
 Version: 0.0.3
 Date: 2017-02-09
 Authors@R: person("Michael W.", "Kearney", "", "mkearney@ku.edu", c("aut", "cre"))
-Description: An implementation of calls designed to interact with New York Times' public APIs.
+Description: Functions for interacting with New York Times public APIs. Currently
+    offers support for article search, most popular, and times newswire APIs.
 Depends:
     R (>= 3.1.0)
 Imports:
@@ -18,3 +19,4 @@ RoxygenNote: 5.0.1
 Suggests:
     knitr,
     rmarkdown
+VignetteBuilder: knitr

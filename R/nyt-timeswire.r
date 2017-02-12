@@ -6,18 +6,19 @@
 #'   an up-to-the-minute stream of published items.
 #'
 #' @param src Limits the set of items by originating source
-#'   all = items from both The New York Times and The International
-#'   New York Times, nyt = New York Times items only, iht =
+#'   \"all\" = items from both New York Times and International
+#'   New York Times, \"nyt\" = New York Times items only, \"iht\" =
 #'   International New York Times items only, path. Must be one
 #'   of the following: string. Defaults to all.
 #' @param section Limits the set of items by one or more sections
-#'   all | One or more section names, separated by semicolons.
+#'   all. One or more section names, separated by semicolons.
 #'   To get all sections, specify all. To get a particular section
 #'   or sections, use section names. String. Defaults to all.
 #' @param limit Limits the number of results, between 1 and 20,
 #'   query. Must be one of the following: integer.
 #' @param offset Sets the starting point of the result set, query.
 #'   Must be one of the following: integer.
+#' @param \dots Passed to http query.
 #'
 #' @return Response object from the Times Newswire API.
 #' @examples
@@ -71,10 +72,9 @@ as.data.frame.timeswire <- function(r, ...) {
 
 #' Parse nyt_timeswire object into data frame
 #'
-#' @param r Response object returned by nyt_timeswire.
 #' @param \dots Passed along to data.frame function.
 #' @return Data frame.
 #' @export
-data.frame.timeswire <- function(x, ...) {
-    as.data.frame.timeswire(x, ...)
+data.frame.timeswire <- function(...) {
+    as.data.frame(...)
 }

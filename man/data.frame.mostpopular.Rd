@@ -2,17 +2,19 @@
 % Please edit documentation in R/nyt-mostpopular.r
 \name{data.frame.mostpopular}
 \alias{data.frame.mostpopular}
-\title{parse_mostpopular}
+\title{parse mostpopular into data frame}
 \usage{
-data.frame.mostpopular(x, ...)
+data.frame.mostpopular(r, ...)
 }
 \arguments{
 \item{r}{Response object from \code{nyt_mostpopular}.}
+
+\item{\dots}{Passed to data frame generic.}
 }
 \value{
 Data frame with \"media\" attributes.
 }
 \description{
-parse_mostpopular
+parse mostpopular into data frame
 }
 

@@ -20,7 +20,7 @@ set to \"all-sections\".}
 
 \item{apikey}{Nytimes article search API key. By default the
 function will look for the key as an environment variable.
-Alternatively, you can suppply the key (a character string)
+Alternatively, you can supply the key (a character string)
 directly to this apikey argument.}
 
 \item{\dots}{Arguments passed along to query in final GET request.}

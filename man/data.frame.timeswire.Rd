@@ -4,11 +4,9 @@
 \alias{data.frame.timeswire}
 \title{Parse nyt_timeswire object into data frame}
 \usage{
-data.frame.timeswire(x, ...)
+data.frame.timeswire(...)
 }
 \arguments{
-\item{r}{Response object returned by nyt_timeswire.}
-
 \item{\dots}{Passed along to data.frame function.}
 }
 \value{

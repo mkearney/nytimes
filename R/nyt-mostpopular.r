@@ -13,7 +13,7 @@
 #'   1, 7, or 30 (days). Defaults to 7 (or one week).
 #' @param apikey Nytimes article search API key. By default the
 #'   function will look for the key as an environment variable.
-#'   Alternatively, you can suppply the key (a character string)
+#'   Alternatively, you can supply the key (a character string)
 #'   directly to this apikey argument.
 #' @param \dots Arguments passed along to query in final GET request.
 #' @return Nested list object of nytimes article data.
@@ -68,13 +68,13 @@ nyt_mostpopular <- function(metric = "mostshared",
     x
 }
 
-#' parse_mostpopular
+#' parse mostpopular into data frame
 #'
 #' @param r Response object from \code{nyt_mostpopular}.
+#' @param \dots Passed to data frame generic.
 #' @return Data frame with \"media\" attributes.
 #' @export
 as.data.frame.mostpopular <- function(r,
-                                      stringsAsFactors = FALSE,
                                       ...) {
     x <- jsonlite::fromJSON(rawToChar(r$content))
     if ("results" %in% names(x)) x <- x$results
@@ -87,17 +87,21 @@ as.data.frame.mostpopular <- function(r,
     )
     x[["asset_id"]] <- as.character(x[["asset_id"]])
     x[["published_date"]] <- as.Date(x[["published_date"]])
-    data.frame(x, stringsAsFactors = FALSE, ...)
+    data.frame(x, ...)
 }
 
-#' parse_mostpopular
+#' parse mostpopular into data frame
 #'
 #' @param r Response object from \code{nyt_mostpopular}.
+#' @param \dots Passed to data frame generic.
 #' @return Data frame with \"media\" attributes.
 #' @export
-data.frame.mostpopular <- function(x, ...) {
-    as.data.frame.mostpopular(x, ...)
+data.frame.mostpopular <- function(r, ...) {
+    as.data.frame(r, ...)
 }
 
+#' get_media
+#'
+#' @param x Object returned by mostpopular as.data.frame.
 #' @export
 get_media <- function(x) attr(x, "media")

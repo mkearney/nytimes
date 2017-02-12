@@ -11,13 +11,13 @@ nyt_search(q, n = 100, end_date = NULL, apikey = NULL, ...)
 
 \item{n}{Number of desired articles to return.}
 
-\item{end_date}{Date from which results should start (the results
-will go back in time from this date). Must be in YYYYMMDD format,
+\item{end_date}{Date from which results should start---the results
+will go back in time from this date. Must be in YYYYMMDD format,
 e.g., \code{end_date = "20170101"}.}
 
 \item{apikey}{Nytimes article search API key. By default the
 function will look for the key as an environment variable.
-Alternatively, you can suppply the key (a character string)
+Alternatively, you can suppply the key, a character string,
 directly to this apikey argument.}
 
 \item{\dots}{Arguments passed along to query in final GET request.}
@@ -26,7 +26,7 @@ directly to this apikey argument.}
 Nested list object of nytimes article data.
 }
 \description{
-Main function used to retrieve data from NYTimes'
+Main function used to retrieve data from NYTimes
   article search API
 }
 
