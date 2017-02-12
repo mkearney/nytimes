@@ -2,8 +2,11 @@
 
 S3method(as.data.frame,mostpopular)
 S3method(as.data.frame,search)
+S3method(as.data.frame,timeswire)
 export(data.frame.mostpopular)
 export(data.frame.search)
+export(data.frame.timeswire)
 export(get_media)
 export(nyt_mostpopular)
 export(nyt_search)
+export(nyt_timeswire)

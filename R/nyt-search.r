@@ -73,9 +73,9 @@ nyt_search <- function(q,
 
 
 
-#' parse_search
+#' parse search
 #'
-#' Parses response data into nested list.
+#' Parses object returned by nyt_search into data frame.
 #'
 #' @param nyt Response object from get_nyt
 #' @param force Logical indicating whether to force data into
@@ -85,11 +85,11 @@ nyt_search <- function(q,
 #'   to TRUE.
 #' @examples
 #' \dontrun{
-#' nyt <- get_nyt("political+polarization", n = 100)
-#' nytdat <- parse_nyt(nyt)
+#' nyt <- nyt_search("political+polarization", n = 100)
+#' nytdat <- as.data.frame(nyt)
 #' head(nytdat)
 #' }
-#' @return Returns NYT data organized by variable.
+#' @return Returns data frame.
 #' @export
 as.data.frame.search <- function(x, force = TRUE,
                                  ...) {
@@ -98,9 +98,7 @@ as.data.frame.search <- function(x, force = TRUE,
     x <- lapply(x, function(x) do.call("c", x))
     if (!force) return(x)
     x <- .flattener(x)
-    x[["pub_date"]] <- strptime(
-        gsub("\\+.*", "", x[["pub_date"]]),
-        format = "%Y-%m-%dT%H:%M:%S")
+    x[["pub_date"]] <- .format_pub_date(x[["pub_date"]])
     data.frame(x, stringsAsFactors = FALSE, ...)
 }
 
@@ -131,43 +129,6 @@ data.frame.search <- function(x, force = TRUE, ...) {
     }
     recv <- vapply(x, is.recursive, logical(1))
     data.frame(x[!recv], stringsAsFactors = FALSE)
-}
-
-## create a function to fetch your api key
-.get_nytimes_key <- function() {
-    x <- Sys.getenv("NYTIMES_KEY")
-    if (any(is.null(x), identical(x, ""))) {
-        stop("couldn't find NYTIMES_KEY environment variable",
-             call. = FALSE)
-    }
-    x
-}
-
-.get_nyt <- function(scheme = "http",
-                        hostname = "api.nytimes.com",
-                        path,
-                        apikey = NULL,
-                        ...) {
-
-    ## if null get api key environment variable
-    if (is.null(apikey)) {
-        apikey <- .get_nytimes_key()
-    }
-    ## construct path
-    path <- paste0("svc/", path)
-    ## build query
-    query <- list(...,
-        `api-key` = apikey
-    )
-    ## create url object
-    url <- structure(
-        list(scheme = scheme,
-             hostname = hostname,
-             path = path,
-             query = query),
-        class = "url")
-    ## send get request
-    httr::GET(httr::build_url(url))
 }
 
 
