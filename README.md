@@ -4,13 +4,6 @@
 - Functionality currently extends to "article search", "most
   popular", and "Times newswire" APIs.
 
-## Install package
-
-```{r}
-install.packages("devtools")
-devtools::install_github("mkearney/nytimes")
-```
-
 ## Authorizing API access
 - Use code below to create environment variable to store your api key,
   which you can acquire here:
@@ -29,14 +22,25 @@ file <- file.path(path.expand("~"), ".Renviron")
 cat(apikey, file = file, append = TRUE, fill = TRUE)
 ```
 
-## Load package
+## Using nytimes package
+
+### Install package
+
+```{r}
+install.packages("devtools")
+devtools::install_github("mkearney/nytimes")
+```
+
+### Load package
 
 ```{r}
 ## load nytimes package
 library(nytimes)
 ```
 
-## Article Search API
+## Examples
+
+### Article Search API
 
 ```{r}
 ## get http response objects for search about sanctions
@@ -55,7 +59,7 @@ nytsearchdf <- as.data.frame(nytsearch, force = FALSE)
 str(nytsearchdf, 1)
 ```
 
-## Most Popular API
+### Most Popular API
 
 ```{r}
 ## get data for most popular stories
@@ -72,7 +76,7 @@ head(nytpopdf)
 get_media(nytpopdf)
 ```
 
-## Times Newswire API
+### Times Newswire API
 
 ```{r}
 ## get data from the Times newswire
