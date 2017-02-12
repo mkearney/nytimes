@@ -70,13 +70,17 @@ nyt_mostpopular <- function(metric = "mostshared",
 
 #' parse mostpopular into data frame
 #'
-#' @param r Response object from \code{nyt_mostpopular}.
+#' @param x Response object from \code{nyt_mostpopular}.
+#' @param row.names see 'asdata.frame()'
+#' @param optional see 'as.data.frame()' methods
 #' @param \dots Passed to data frame generic.
 #' @return Data frame with \"media\" attributes.
 #' @export
-as.data.frame.mostpopular <- function(r,
+as.data.frame.mostpopular <- function(x,
+                                      row.names = NULL,
+                                      optional = FALSE,
                                       ...) {
-    x <- jsonlite::fromJSON(rawToChar(r$content))
+    x <- jsonlite::fromJSON(rawToChar(x$content))
     if ("results" %in% names(x)) x <- x$results
     attr(x, "media") <- x[["media"]]
     x <- x[, names(x) != "media"]
@@ -87,17 +91,17 @@ as.data.frame.mostpopular <- function(r,
     )
     x[["asset_id"]] <- as.character(x[["asset_id"]])
     x[["published_date"]] <- as.Date(x[["published_date"]])
-    data.frame(x, ...)
+    as.data.frame(x, ...)
 }
 
 #' parse mostpopular into data frame
 #'
-#' @param r Response object from \code{nyt_mostpopular}.
+#' @param x Response object from \code{nyt_mostpopular}.
 #' @param \dots Passed to data frame generic.
 #' @return Data frame with \"media\" attributes.
 #' @export
-data.frame.mostpopular <- function(r, ...) {
-    as.data.frame(r, ...)
+data.frame.mostpopular <- function(x, ...) {
+    as.data.frame(x, ...)
 }
 
 #' get_media

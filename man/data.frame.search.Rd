@@ -4,10 +4,10 @@
 \alias{data.frame.search}
 \title{parse search}
 \usage{
-data.frame.search(r, force = TRUE, ...)
+data.frame.search(x, ..., force = TRUE)
 }
 \arguments{
-\item{r}{Response object from get_nyt}
+\item{x}{Response object from get_nyt}
 
 \item{force}{Logical indicating whether to force data into
 a data frame. Depending on the request, a few columns may

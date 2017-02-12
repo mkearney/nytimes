@@ -4,10 +4,10 @@
 \alias{data.frame.mostpopular}
 \title{parse mostpopular into data frame}
 \usage{
-data.frame.mostpopular(r, ...)
+data.frame.mostpopular(x, ...)
 }
 \arguments{
-\item{r}{Response object from \code{nyt_mostpopular}.}
+\item{x}{Response object from \code{nyt_mostpopular}.}
 
 \item{\dots}{Passed to data frame generic.}
 }

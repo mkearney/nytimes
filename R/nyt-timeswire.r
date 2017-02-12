@@ -44,12 +44,17 @@ nyt_timeswire <- function(src = "all",
 
 #' Parse nyt_timeswire object into data frame
 #'
-#' @param r Response object returned by nyt_timeswire.
+#' @param x Response object returned by nyt_timeswire.
+#' @param row.names see 'asdata.frame()'
+#' @param optional see 'as.data.frame()' methods
 #' @param \dots Passed along to data.frame function.
 #' @return Data frame.
 #' @export
-as.data.frame.timeswire <- function(r, ...) {
-    x <- .convertfromjson(r)
+as.data.frame.timeswire <- function(x,
+                                    row.names = NULL,
+                                    optional = FALSE,
+                                    ...) {
+    x <- .convertfromjson(x)
     x <- x$results
     x[grep("_facet|_urls", names(x), value = TRUE)] <- lapply(
         x[grep("_facet|urls", names(x), value = TRUE)],
@@ -67,7 +72,7 @@ as.data.frame.timeswire <- function(r, ...) {
     x$created_date <- .format_pub_date(x$created_date)
     x$published_date <- .format_pub_date(x$published_date)
     x$updated_date <- .format_pub_date(x$updated_date)
-    data.frame(x, ...)
+    as.data.frame(x, ...)
 }
 
 #' Parse nyt_timeswire object into data frame

@@ -4,10 +4,15 @@
 \alias{as.data.frame.mostpopular}
 \title{parse mostpopular into data frame}
 \usage{
-\method{as.data.frame}{mostpopular}(r, ...)
+\method{as.data.frame}{mostpopular}(x, row.names = NULL, optional = FALSE,
+  ...)
 }
 \arguments{
-\item{r}{Response object from \code{nyt_mostpopular}.}
+\item{x}{Response object from \code{nyt_mostpopular}.}
+
+\item{row.names}{see 'asdata.frame()'}
+
+\item{optional}{see 'as.data.frame()' methods}
 
 \item{\dots}{Passed to data frame generic.}
 }

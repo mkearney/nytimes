@@ -4,10 +4,15 @@
 \alias{as.data.frame.search}
 \title{parse search}
 \usage{
-\method{as.data.frame}{search}(r, force = TRUE, ...)
+\method{as.data.frame}{search}(x, row.names = NULL, optional = FALSE, ...,
+  force = TRUE)
 }
 \arguments{
-\item{r}{Response object from get_nyt}
+\item{x}{Response object from get_nyt}
+
+\item{row.names}{see 'asdata.frame()'}
+
+\item{optional}{see 'as.data.frame()' methods}
 
 \item{force}{Logical indicating whether to force data into
 a data frame. Depending on the request, a few columns may

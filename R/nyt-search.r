@@ -78,13 +78,15 @@ nyt_search <- function(q,
 #'
 #' Parses object returned by nyt_search into data frame.
 #'
-#' @param r Response object from get_nyt
+#' @param x Response object from get_nyt
+#' @param row.names see 'asdata.frame()'
+#' @param optional see 'as.data.frame()' methods
+#' @param \dots Passed to data frame generic.
 #' @param force Logical indicating whether to force data into
 #'   a data frame. Depending on the request, a few columns may
 #'   come out ugly with recursive variables forced into non-
 #'   recursive format by separating each entry with \code{+}'s.
 #'   Defaults to TRUE.
-#' @param \dots Passed to data frame generic.
 #' @examples
 #' \dontrun{
 #' nyt <- nyt_search("political+polarization", n = 100)
@@ -93,29 +95,31 @@ nyt_search <- function(q,
 #' }
 #' @return Returns data frame.
 #' @export
-as.data.frame.search <- function(r,
-                                 force = TRUE,
-                                 ...) {
-    x <- .get_docs(r)
+as.data.frame.search <- function(x,
+                                 row.names = NULL,
+                                 optional = FALSE,
+                                 ...,
+                                 force = TRUE) {
+    x <- .get_docs(x)
     x <- .delist(x)
     x <- lapply(x, function(x) do.call("c", x))
     if (!force) return(x)
     x <- .flattener(x)
     x[["pub_date"]] <- .format_pub_date(x[["pub_date"]])
-    data.frame(x, ...)
+    as.data.frame(x, ...)
 }
 
 #' parse search
 #'
 #' Parses object returned by nyt_search into data frame.
 #'
-#' @param r Response object from get_nyt
+#' @param x Response object from get_nyt
+#' @param \dots Passed to data frame generic.
 #' @param force Logical indicating whether to force data into
 #'   a data frame. Depending on the request, a few columns may
 #'   come out ugly with recursive variables forced into non-
 #'   recursive format by separating each entry with \code{+}'s.
 #'   Defaults to TRUE.
-#' @param \dots Passed to data frame generic.
 #' @examples
 #' \dontrun{
 #' nyt <- nyt_search("political+polarization", n = 100)
@@ -124,8 +128,8 @@ as.data.frame.search <- function(r,
 #' }
 #' @return Returns data frame.
 #' @export
-data.frame.search <- function(r, force = TRUE, ...) {
-    as.data.frame(r, force = force, ...)
+data.frame.search <- function(x, ..., force = TRUE) {
+    as.data.frame(x, force = force, ...)
 }
 
 .flattener <- function(x) {

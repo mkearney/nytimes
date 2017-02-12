@@ -4,10 +4,15 @@
 \alias{as.data.frame.timeswire}
 \title{Parse nyt_timeswire object into data frame}
 \usage{
-\method{as.data.frame}{timeswire}(r, ...)
+\method{as.data.frame}{timeswire}(x, row.names = NULL, optional = FALSE,
+  ...)
 }
 \arguments{
-\item{r}{Response object returned by nyt_timeswire.}
+\item{x}{Response object returned by nyt_timeswire.}
+
+\item{row.names}{see 'asdata.frame()'}
+
+\item{optional}{see 'as.data.frame()' methods}
 
 \item{\dots}{Passed along to data.frame function.}
 }
