@@ -29,10 +29,10 @@ file <- file.path(path.expand("~"), ".Renviron")
 cat(apikey, file = file, append = TRUE, fill = TRUE)
 ```
 
-## Load nytimes
+## Load package
 
 ```{r}
-## load package
+## load nytimes package
 library(nytimes)
 ```
 
@@ -40,20 +40,19 @@ library(nytimes)
 
 ```{r}
 ## get http response objects for search about sanctions
-r <- nyt_search("sanctions", n = 2000)
+nytsearch <- nyt_search("sanctions", n = 2000)
 
-## by default data.frame() will force output into
-## tidy data frame
-nytdf <- as.data.frame(r)
+## convert response object to data frame
+nytsearchdf <- as.data.frame(nytsearch)
 
 ## preview data
-head(nytdf, 10)
+head(nytsearchdf, 10)
 
 ## set force to FALSE to preserve *all* of the data
-nytdat <- as.data.frame(r, force = FALSE)
+nytsearchdf <- as.data.frame(nytsearch, force = FALSE)
 
-## object is now includes recursive vectors
-str(nytdat, 1)
+## nytsearchdf now includes recursive vectors
+str(nytsearchdf, 1)
 ```
 
 ## Most Popular API
@@ -63,7 +62,7 @@ str(nytdat, 1)
 nytpop <- nyt_mostpopular(metric = "mostshared",
                           section = "U.S.")
 
-## easily converts to tidy data frame
+## convert response object to data frame
 nytpopdf <- as.data.frame(nytpop)
 
 ## preview data
@@ -78,7 +77,7 @@ get_media(nytpopdf)
 ```{r}
 ## get data from the Times newswire
 nytwrite <- nyt_timeswire(src = "all",
-                        section = "all")
+                          section = "all")
 
 ## convert response object to data frame
 nytwiredf <- as.data.frame(nytwire)
