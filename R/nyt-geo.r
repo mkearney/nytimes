@@ -7,24 +7,37 @@
 #'   an authoritative and free to use database of global
 #'   geographical places, names and features.
 #'
-#' @param name latitude longitude elevation sw query filter
-#'   date_range facets sort limit offset string string string
-#'   integer string string string string integer string
-#'   integer integer /query.json
+#' @param q Place name (vector length 1), latitude longitude,
+#'   (vector length 2), or bounding box (vector length 4). For
+#'   coordinates enter latitutde followed by longitude. For a
+#'   bounding box search, enter two pairs of lat/long coords
+#'   starting with southwestern most coordinates and ending
+#'   with northeastern most coordinates.
+#' @param \dots Passed along to query in GET request.
 #' @return Response object
 #' @export
-nyt_geo <- function(name,
-                    latitude,
-                    longitude,
-                    elevation,
-                    sw,
-                    query,
-                    filter,
-                    date_range,
-                    facets,
-                    sort,
-                    limit,
-                    offset) {
-    basepath <- "semantic/v2/geocodes"
-    path <- "query.json"
+nyt_geo <- function(q, ...) {
+    name <- NULL
+    latitude <- NULL
+    longitude <- NULL
+    sw <- NULL
+    ne <- NULL
+    path <- "semantic/v2/geocodes/query.json"
+    if (length(q) == 1) {
+        name <- strsplit(q, "=")[[1]][1]
+        namevalue <- strsplit(q, "=")[[1]][2]
+    } else if (length(q) == 2) {
+        latitude <- q[[1]]
+        longitude <- q[[2]]
+    } else if (length(q) == 4) {
+        sw <- q[1:2]
+        ne <- q[3:4]
+    }
+    .get_nyt(path = path,
+             name = name,
+             latitude = latitude,
+             longitude = longitude,
+             sw = sw,
+             ne = ne,
+             ...)
 }

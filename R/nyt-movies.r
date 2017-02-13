@@ -30,7 +30,7 @@ nyt_movies <- function(query = NULL,
         }
     }
     if (!is.null(critics_pick)) {
-            critics_pick <- "Y"
+        critics_pick <- "Y"
     } else if (!is.null(query)) {
         critics_pick <- "N"
     }

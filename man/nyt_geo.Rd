@@ -4,14 +4,17 @@
 \alias{nyt_geo}
 \title{Geographic API}
 \usage{
-nyt_geo(name, latitude, longitude, elevation, sw, query, filter, date_range,
-  facets, sort, limit, offset)
+nyt_geo(q, ...)
 }
 \arguments{
-\item{name}{latitude longitude elevation sw query filter
-date_range facets sort limit offset string string string
-integer string string string string integer string
-integer integer /query.json}
+\item{q}{Place name (vector length 1), latitude longitude,
+(vector length 2), or bounding box (vector length 4). For
+coordinates enter latitutde followed by longitude. For a
+bounding box search, enter two pairs of lat/long coords
+starting with southwestern most coordinates and ending
+with northeastern most coordinates.}
+
+\item{\dots}{Passed along to query in GET request.}
 }
 \value{
 Response object
