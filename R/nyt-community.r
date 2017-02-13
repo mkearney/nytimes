@@ -11,7 +11,7 @@
 #' @param \dots Passed to query in GET request.
 #' @return Response object
 #' @export
-nyt_community <- function(q = "recent", ...) {
+nyt_community <- function(q = Sys.Date(), ...) {
     basepath <- "community/v3/user-content/"
     date <- NULL
     userID <- NULL
