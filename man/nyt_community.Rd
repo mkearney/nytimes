@@ -4,7 +4,7 @@
 \alias{nyt_community}
 \title{Community API}
 \usage{
-nyt_community(q = "recent")
+nyt_community(q = "recent", ...)
 }
 \arguments{
 \item{q}{Type of user content query. Possible methods include

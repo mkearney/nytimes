@@ -35,8 +35,19 @@ nyt_movies <- function(query = NULL,
         critics_pick <- "N"
     }
 
-    .get_nyt(path = path,
-             reviews = reviews,
-             query = query,
-             ...)
+    r <- .get_nyt(
+        path = path,
+        reviews = reviews,
+        query = query,
+        ...)
+    class(r) <- "nytmovies"
+    r
+}
+
+
+as.data.frame.nytmovies <- function(x, ...) {
+    x <- .convertfromjson(x)
+    x <- x$results
+    x <- cbind(x[!names(x) %in% "multimedia"], x$multimedia)
+    data.frame(x, stringsAsFactors = FALSE, ...)
 }

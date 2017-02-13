@@ -11,7 +11,7 @@
 #' @param \dots Passed to query in GET request.
 #' @return Response object
 #' @export
-nyt_community <- function(q = "recent") {
+nyt_community <- function(q = "recent", ...) {
     basepath <- "community/v3/user-content/"
     date <- NULL
     userID <- NULL
@@ -28,10 +28,12 @@ nyt_community <- function(q = "recent") {
         path <- paste0(basepath, "user.json")
         userID <- q
     }
-    .get_nyt(path = path,
+    r <- .get_nyt(path = path,
              date = date,
              userID = userID,
              url = url, ...)
+    class(r) <- "nytcommunity"
+    r
 }
 
 .form_date <- function(x) {
@@ -54,4 +56,27 @@ nyt_community <- function(q = "recent") {
                   error = function(e) return(NULL))
     if (is.null(x)) return(FALSE)
     TRUE
+}
+
+
+as.data.frame.nytcommunity <- function(x,
+                                       row.names = NULL,
+                                       optional = FALSE,
+                                       ...,
+                                       stringsAsFactors = FALSE) {
+    df <- .convertfromjson(x)
+    df <- df$results$comments
+    replies <- df$replies[
+        vapply(df$replies, length, double(1)) > 0]
+    replies <- do.call("rbind", replies)
+    df <- df[, !names(df) %in% "replies"]
+    attr(df, "replies") <- replies
+    data.frame(df, row.names = row.names,
+               optional = optional,
+               stringsAsFactors = stringsAsFactors,
+               ...)
+}
+
+data.frame.nytcommunity <- function(...) {
+    as.data.frame(...)
 }
