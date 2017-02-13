@@ -4,24 +4,39 @@
 #'   movie reviews by keyword and get lists of NYT Critics' Picks.
 #'
 #' @param query Search string
-#' @param reviewer Name or type of critic/review. Defaults to all.
+#' @param reviews Name or type of reviews. Defaults to all.
+#' @param critics Type or name of critics. Defaults to NULL.
 #' @param critics_pick Logicl indicating whether to limit results
 #'    to top critics.
 #' @param \dots Passed to query in get request.
 #' @return Response object
 #' @export
 nyt_movies <- function(query = NULL,
-                       reviewer = "all",
-                       critics_pick = NULL,
+                       reviews = "all",
+                       critics = NULL,
+                       critics_pick = FALSE,
                        ...) {
     basepath <- "movies/v2/"
     if (!is.null(query)) {
         path <- paste0(basepath, "reviews/search.json")
-    } else {
+    } else if (!is.null(critics)) {
         path <- paste0(basepath,
-                       paste0("reviews/", reviewer, ".json"))
-        if (!is.null(critics_pick)) critics_pick <- "Y"
+                       paste0("critics/", reviews, ".json"))
+    } else {
+        if (critics_pick) {
+            path <- paste0(basepath, "reviews/picks.json")
+        } else {
+            path <- paste0(basepath, "reviews/all.json")
+        }
     }
-    .get_nyt(path = path, reviewer = reviewer,
-             query = query, ...)
+    if (!is.null(critics_pick)) {
+            critics_pick <- "Y"
+    } else if (!is.null(query)) {
+        critics_pick <- "N"
+    }
+
+    .get_nyt(path = path,
+             reviews = reviews,
+             query = query,
+             ...)
 }

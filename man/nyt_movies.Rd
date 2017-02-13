@@ -4,12 +4,15 @@
 \alias{nyt_movies}
 \title{Movie Reviews API}
 \usage{
-nyt_movies(query = NULL, reviewer = "all", critics_pick = NULL, ...)
+nyt_movies(query = NULL, reviews = "all", critics = NULL,
+  critics_pick = FALSE, ...)
 }
 \arguments{
 \item{query}{Search string}
 
-\item{reviewer}{Name or type of critic/review. Defaults to all.}
+\item{reviews}{Name or type of reviews. Defaults to all.}
+
+\item{critics}{Type or name of critics. Defaults to NULL.}
 
 \item{critics_pick}{Logicl indicating whether to limit results
 to top critics.}
