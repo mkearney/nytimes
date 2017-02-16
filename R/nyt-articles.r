@@ -36,7 +36,7 @@ nyt_search <- function(q,
     ## initialize vector to store results
     x <- vector("list", n)
     ## start page counter
-    p <- 1L
+    p <- NULL
     ## loop through pages
     for (i in seq_len(n)) {
         x[[i]] <- .get_nyt(
@@ -56,9 +56,10 @@ nyt_search <- function(q,
             p <- 1L
         } else {
             ## add to page counter
+            if (is.null(p)) p <- 0L
             p <- p + 1L
         }
-        Sys.sleep(3)
+        Sys.sleep(1)
     }
     if (x[[i]][["status_code"]] == 429) {
         warning("API rate limit exceeded",

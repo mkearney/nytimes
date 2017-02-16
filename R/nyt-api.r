@@ -8,10 +8,10 @@
 }
 
 .get_nyt <- function(scheme = "http",
-                        hostname = "api.nytimes.com",
-                        path,
-                        apikey = NULL,
-                        ...) {
+                     hostname = "api.nytimes.com",
+                     path,
+                     apikey = NULL,
+                     ...) {
 
     ## if null get api key environment variable
     if (is.null(apikey)) {
