@@ -44,6 +44,7 @@ nyt_search <- function(q,
             apikey = apikey,
             q = q,
             page = p,
+            sort = "newest",
             end_date = end_date,
             ...)
         ## check status of response object
