@@ -33,4 +33,3 @@ Retrieves NYTimes data for one of three possible
   popularity metrics---mostshared, mostviewed, or
   mostemailed.
 }
-

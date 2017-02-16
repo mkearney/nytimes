@@ -27,4 +27,3 @@ The Geographic API extends the Semantic API, using a
   an authoritative and free to use database of global
   geographical places, names and features.
 }
-

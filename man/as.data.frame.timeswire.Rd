@@ -22,4 +22,3 @@ Data frame.
 \description{
 Parse nyt_timeswire object into data frame
 }
-

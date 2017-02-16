@@ -9,13 +9,13 @@ data.frame.search(x, ..., force = TRUE)
 \arguments{
 \item{x}{Response object from get_nyt}
 
+\item{\dots}{Passed to data frame generic.}
+
 \item{force}{Logical indicating whether to force data into
 a data frame. Depending on the request, a few columns may
 come out ugly with recursive variables forced into non-
 recursive format by separating each entry with \code{+}'s.
 Defaults to TRUE.}
-
-\item{\dots}{Passed to data frame generic.}
 }
 \value{
 Returns data frame.
@@ -30,4 +30,3 @@ nytdat <- as.data.frame(nyt)
 head(nytdat)
 }
 }
-

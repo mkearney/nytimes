@@ -26,4 +26,3 @@ Response object
 With the Movie Reviews API, you can search New York Times
   movie reviews by keyword and get lists of NYT Critics' Picks.
 }
-

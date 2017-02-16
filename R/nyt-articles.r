@@ -58,7 +58,7 @@ nyt_search <- function(q,
             ## add to page counter
             p <- p + 1L
         }
-        Sys.sleep(.5)
+        Sys.sleep(3)
     }
     if (x[[i]][["status_code"]] == 429) {
         warning("API rate limit exceeded",

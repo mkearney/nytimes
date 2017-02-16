@@ -16,4 +16,3 @@ Response object
 The Archive API provides lists of NYT articles by month
   going back to 1851.
 }
-

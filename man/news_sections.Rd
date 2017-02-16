@@ -47,4 +47,3 @@
 \description{
 Sections of the NYtimes
 }
-

@@ -41,4 +41,3 @@ With the Times Newswire API, you can get links and metadata
 nyt <- timeswire()
 }
 }
-

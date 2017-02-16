@@ -22,4 +22,3 @@ Response object
 Get access to comments from registered users on New
   York Times articles.
 }
-

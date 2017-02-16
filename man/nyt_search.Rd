@@ -29,4 +29,3 @@ Nested list object of nytimes article data.
 Main function used to retrieve data from NYTimes
   article search API
 }
-
